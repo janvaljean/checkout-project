@@ -101,19 +101,19 @@ document.querySelectorAll(".remove-ürün").forEach((a) => {
     //!diziden sildik
 
     sepettekiler = sepettekiler.filter((e) => e.name !== a.closest(".card").querySelector("h5").textContent);
-    console.log(sepettekiler);
-
+   
+    
     a.closest(".card").querySelector("div").remove();
-
+    refreshTable();
     
-
+    console.log(sepettekiler);
     
-
+    
   	
-
-
-}});
-
+    
+    
+  }});
+  
 
 
   
@@ -131,7 +131,8 @@ document.querySelectorAll(".minus").forEach((minus) => {
   minus.onclick = () => {
     //!minus adet değişimini ekrana bastır
     if (minus.closest(".card").querySelector("#ürün-adet").textContent>0){
-    minus.closest(".card").querySelector("#ürün-adet").textContent --}
+        minus.closest(".card").querySelector("#ürün-adet").textContent --
+    }
 
 
       minus.closest(".card").querySelector(".ürün-toplam").textContent = (minus.closest(".card").querySelector("#ürün-adet").textContent * minus.closest(".card").querySelector(".indirim-price").textContent).toFixed(2)
@@ -145,11 +146,12 @@ document.querySelectorAll(".minus").forEach((minus) => {
     sepettekiler.map((ürün) => {
        if (ürün.name == 
         minus.closest(".card").querySelector("h5").textContent) {
-        ürün.adet = minus.closest(".card").querySelector("#ürün-adet").textContent;
+        ürün.adet = Number(minus.closest(".card").querySelector("#ürün-adet").textContent);
    
    console.log(sepettekiler);
     //!ürün toplam ı ekrana bastırma (her ürün card ında var)
-          
+     refreshTable()  
+    
     }})}})
 
   
@@ -166,7 +168,7 @@ document.querySelectorAll(".minus").forEach((minus) => {
 
     sepettekiler.map((ürün) => { if (ürün.name == 
         plus.closest(".card").querySelector("h5").textContent) {
-        ürün.adet = plus.closest(".card").querySelector("#ürün-adet").textContent;
+        ürün.adet = Number(plus.closest(".card").querySelector("#ürün-adet").textContent);
 
    
 
@@ -175,17 +177,11 @@ document.querySelectorAll(".minus").forEach((minus) => {
 
    plus.closest(".card").querySelector(".ürün-toplam").textContent = (plus.closest(".card").querySelector("#ürün-adet").textContent * plus.closest(".card").querySelector(".indirim-price").textContent).toFixed(2)
 
-    
+    refreshTable() 
 console.log(sepettekiler);
-  
-const topUrun = () => {
+   
 
- sepettekiler.forEach((ürün) => {
-    if(ürün.adet==0){
-      document.querySelectorAll(".ürün-toplam").textContent = 0
-    }else{
-    document.querySelectorAll(".ürün-toplam").textContent = (ürün.adet * ürün.price * 0.7).toFixed(2)
-  }})}
+  }})
     
       //!dizideki adet i  güncelle
       
@@ -198,7 +194,7 @@ const topUrun = () => {
      
     
    
-}})
+
 
 
 
@@ -206,17 +202,10 @@ const topUrun = () => {
 //! Card toplam değerlerini hesaplayın ve güncelleyin
   
   //! her bir card daki ürün toplam kısımları, buradaki fiyatları toplayıp ara toplam bulmalıyız (table a bastırmak için)
-  let araToplam = []
-  const ürünToplam = document.querySelectorAll(".ürün-toplam");
-  ürünToplam.forEach((ürünToplam) => {
-      araToplam.push(Number(ürünToplam.textContent))
-      
-
-  })
-  let araTotal = araToplam.reduce((a, b) => a + b, 0)
+ 
   
   //!  Bir NodeListnesne, bir belgeden çıkarılan düğümlerin bir listesidir
-  document.querySelector(".aratoplam").textContent = 0
+
 
   //? araToplam= en alttaki tüm ürünler için vergi kargo hariç sepettekiler fiyatı
 
@@ -227,4 +216,25 @@ const topUrun = () => {
   // const cardTotal = araToplam + shipping + vergiPrice;
 
   //!ekrana table kısmına bastır
+
+const refreshTable = function () { 
+    
+    
+    var aratoplam = 0;
+    sepettekiler.forEach((ürün) => {
+    aratoplam += (ürün.adet * ürün.price*0.7);
+    
+    
+  })
+  // aratoplam.toFixed(2);
+  // console.log("Ara Toplam:" + aratoplam);
+  document.querySelector(".aratoplam").textContent = aratoplam.toFixed(2);
+  document.querySelector(".vergi").textContent = (aratoplam*vergi).toFixed(2);
+  document.querySelector(".kargo").textContent = aratoplam == 0 ? 0: kargo;
+  document.querySelector(".toplam").textContent = aratoplam == 0 ? 0:(aratoplam + kargo + (aratoplam*vergi)).toFixed(2)
+  
+
+  
+}
+
 

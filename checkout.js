@@ -103,7 +103,7 @@ document.querySelectorAll(".remove-ürün").forEach((a) => {
     sepettekiler = sepettekiler.filter((e) => e.name !== a.closest(".card").querySelector("h5").textContent);
    
     
-    a.closest(".card").querySelector("div").remove();
+    a.closest(".card").remove();
     refreshTable();
     
     console.log(sepettekiler);

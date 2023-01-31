@@ -94,16 +94,16 @@ document.querySelector("#odeme-table").innerHTML += `<table class="table">
 
 
 //!SİLME
-document.querySelectorAll(".remove-ürün").forEach((a) => {
+document.querySelectorAll(".remove-ürün").forEach((btn) => {
   
   //!ekrandan sildik
-  a.onclick = () => {
+  btn.onclick = () => {
+    btn.closest(".card").remove();
     //!diziden sildik
 
-    sepettekiler = sepettekiler.filter((e) => e.name !== a.closest(".card").querySelector("h5").textContent);
-   
     
-    a.closest(".card").remove();
+    
+    sepettekiler = sepettekiler.filter((e) => e.name !== btn.closest(".card").querySelector("h5").textContent);
     refreshTable();
     
     console.log(sepettekiler);
